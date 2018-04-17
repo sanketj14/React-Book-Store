@@ -3,9 +3,7 @@ import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
-  doFetchBooks,
-  doSuccessFetchBooks,
-  doCancelFetchBooks
+  doFetchBooks
 } from './booklist/actions/doFetchBooks'
 
 import Header from './header/index';
@@ -28,7 +26,6 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps ===>', nextProps);
     if (_.isEmpty(this.state.searchResults.length)) {
       this.setState({
         searchResults: nextProps.books
@@ -74,12 +71,12 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    fetchBooks : (term) => {
+    fetchBooks: (term) => {
       dispatch(doFetchBooks(term))
     }
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

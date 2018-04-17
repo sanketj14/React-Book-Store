@@ -5,7 +5,8 @@ import {
   FETCH_BOOKS_FAILURE
 } from './actionTypes';
 
-export function doFetchBooks(term) {
+export function doFetchBooks(term, atts) {
+  console.log('atts====>',atts);
   return {
     type: FETCH_BOOKS,
     term

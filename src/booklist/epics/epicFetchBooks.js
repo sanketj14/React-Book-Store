@@ -1,5 +1,4 @@
 import axios from 'axios';
-import 'rxjs/add/operator/catch';
 import queryString from 'query-string';
 import { 
   doFetchBooks,
@@ -7,14 +6,11 @@ import {
   doCancelFetchBooks
 } from '../actions/doFetchBooks';
 import { FETCH_BOOKS } from '../actions/actionTypes';
-import { API_KEY, ROOT_URL } from '../../constants';
+import { API_KEY, BOOKS_API } from '../../constants';
 
 function epicFetchBooks(action$, store) {
   return action$.ofType(FETCH_BOOKS)
-  .map(function(action){
-    return action;
-  })
-  .mergeMap(function(action){
+  .mergeMap(action => {
     let q = {
       q: action.term || 'react',
       key: API_KEY
@@ -23,8 +19,7 @@ function epicFetchBooks(action$, store) {
     q = queryString.stringify(q, {
       arrayFormat: 'index'
     });
-  
-    axios.get(`${ROOT_URL}${q}`)
+    axios.get(`https://${BOOKS_API}${q}`)
     .then(response => doSuccessFetchBooks(response))
     .catch(error => doCancelFetchBooks(error.xhr))
   })
