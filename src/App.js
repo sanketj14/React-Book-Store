@@ -25,8 +25,8 @@ class App extends Component {
     this.props.fetchBooks('react');
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (_.isEmpty(this.state.searchResults.length)) {
+  componentWillReceiveProps(nextProps, prevProps) {
+    if (_.isEmpty(this.state.searchResults) || !_.isEqual(nextProps, prevProps)) {
       this.setState({
         searchResults: nextProps.books
       })

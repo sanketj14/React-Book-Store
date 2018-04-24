@@ -11,8 +11,8 @@ let initialState = {
 }
 
 function applyFetchBooksReducer (state = initialState, action) {
+  console.log('action.type ====>',action.type);
   switch(action.type){
-
     case FETCH_BOOKS : 
       return Object.assign({}, state, {
         books: [],
@@ -29,12 +29,11 @@ function applyFetchBooksReducer (state = initialState, action) {
       });
 
     case FETCH_BOOKS_FAILURE : 
-      let error = action.payload || { message: action.payload.message };
 
       return Object.assign({}, state, {
         books: [],
         isLoading: false,
-        error
+        error: action.payload.error
       });
 
     default : 

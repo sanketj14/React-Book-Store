@@ -6,7 +6,6 @@ import {
 } from './actionTypes';
 
 export function doFetchBooks(term, atts) {
-  console.log('atts====>',atts);
   return {
     type: FETCH_BOOKS,
     term
@@ -14,6 +13,7 @@ export function doFetchBooks(term, atts) {
 }
 
 export function doSuccessFetchBooks(payload) {
+  console.log('inside doSuccessFetchBooks ====>', payload)
   return {
     type: FETCH_BOOKS_SUCCESS,
     payload
