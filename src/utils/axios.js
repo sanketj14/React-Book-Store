@@ -23,6 +23,6 @@ book_store_axios_instance.interceptors.response.use(function(response) {
   NProgress.done();
   return response;
 }, function(error) {
-  NProgress.done()
+  NProgress.done();
   return Promise.reject(error);
 })

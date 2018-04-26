@@ -1,64 +1,56 @@
-import React , { Component } from 'react';
-import _ from 'lodash';
+import React, { Component } from "react";
+import _ from "lodash";
+import {List as Ul , ListItem} from 'material-ui/List';
 
-import BookDetail from '../../bookdetail/index'
+import BookDetail from "../../bookdetail/index";
 
 class List extends Component {
-
-  constructor (props) {
-    super(props);   
-    console.log('props in list comp===>',this.props)    
+  constructor(props) {
+    super(props);
+    console.log("props in list comp===>", this.props);
     this.state = {
       activeBook: {}
-    }
+    };
   }
 
-  setActivebook (event, activeBookID) {
+  setActivebook(event, activeBookID) {
     // event.target.parentElement.classList.add('active');
     let book = _.find(this.books, { id: activeBookID });
-    
+
     this.setState({
       activeBook: book
-    })
-    console.log('active book ====>',this.state.activeBook)
+    });
+    console.log("active book ====>", this.state.activeBook);
   }
-  
-  render () {
-    console.log('props in list comp 2===>',this.props)
-    this.books = this.props.books;
-    
-    if (_.isEmpty(this.books)) {
-      return (
-        <div>
-          Books ..... and lots of books here
-        </div>
-      )
-    }
 
+  render() {
+    console.log("props in list comp 2===>", this.props);
+    this.books = this.props.books;
+
+    if (_.isEmpty(this.books)) {
+      return <div>Books ..... and lots of books here</div>;
+    }
 
     var _this = this;
     let BooksList = this.books.map((book, index) => {
       return (
-        <li key={book.id} className="list-group-item">
-          <a href="#" data-book={book.id} onClick={(event) => _this.setActivebook(event, book.id)} >{book.volumeInfo.title}</a>
-        </li>
-      )
-    })
+        <ListItem key={book.id} 
+        data-book={book.id} className="list-group-item" 
+        onClick={event => _this.setActivebook(event, book.id)}>
+          {book.volumeInfo.title}
+        </ListItem>
+      );
+    });
 
     return (
-      <div className="row">
-        <div className="col-8">
-          <ul className="list-group">
-            {BooksList}
-          </ul>
-        </div>
-        <div className="col-4">
-          <BookDetail book={this.state.activeBook}/>
-        </div>
+      <div className="container-fluid">
+        <Ul>
+          {BooksList}   
+        </Ul>
+        <BookDetail book={this.state.activeBook} />
       </div>
     );
   }
-
 }
 
 export default List;

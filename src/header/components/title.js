@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
 
 class Title extends Component {
 
@@ -8,11 +10,12 @@ class Title extends Component {
 
   render () {
     return (
-      <div>
-        <h1>
-          Book Store
-        </h1>
-      </div>
+      <Card >
+        <AppBar
+          title="Book Store"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+      </Card>
     )
   }
 

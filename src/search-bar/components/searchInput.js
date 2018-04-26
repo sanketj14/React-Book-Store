@@ -1,47 +1,54 @@
-import React , { Component } from "react";
-import _ from 'lodash';
+import React, { Component } from "react";
+import _ from "lodash";
+import TextField from "material-ui/TextField";
+import RaisedButton from "material-ui/RaisedButton";
 
 class SearchInput extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      searchTerm: ''
-    }
+      searchTerm: ""
+    };
     this.fetchResults = this.fetchResults.bind(this);
     this.resetHandler = this.resetHandler.bind(this);
   }
 
-  fetchResults (event) {
-
+  fetchResults(event) {
     this.setState({
-      searchTerm: event.target.value 
+      searchTerm: event.target.value
     });
-    
-    this.props.onSearchTermChange(event.target.value)
+
+    this.props.onSearchTermChange(event.target.value);
   }
 
-  resetHandler () {
+  resetHandler() {
     this.setState({
-      searchTerm: '' 
+      searchTerm: ""
     });
     this.props.onResetSearch();
   }
 
-  render () {
-
+  render() {
     return (
-      <div>
-        <div className="input-group">
-          <input type="text" className="form-control" placeholder="Search a book from google books library.." onInput={this.fetchResults} aria-label="" value={this.state.searchTerm} aria-describedby="basic-addon2" />
+      <div className="container-fluid">
+        <TextField
+          value={this.state.searchTerm}
+          onInput={this.fetchResults}
+          floatingLabelText="Search Books"
+          fullWidth={true}
+        />
+        {/* <RaisedButton
+          label="Reset"
+          primary={true}
+          onClick={this.resetHandler}
+        /> */}
+        {/* <input type="text" className="form-control" placeholder="Search a book from google books library.." onInput={this.fetchResults} aria-label="" value={this.state.searchTerm} aria-describedby="basic-addon2" />
           <div className="input-group-append">
             <button className="btn btn-outline-secondary" onClick={this.resetHandler} type="button">Reset</button>
-          </div>
-        </div>
+          </div> */}
       </div>
     );
   }
-
 }
 
 export default SearchInput;
