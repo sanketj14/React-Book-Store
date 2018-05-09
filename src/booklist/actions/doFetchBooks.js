@@ -1,11 +1,20 @@
 import axios from 'axios';
 import {
   FETCH_BOOKS,
+  BOOK_SELECTED,
   FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE
 } from './actionTypes';
 
-export function doFetchBooks(term, atts) {
+export function selectedBook(activeBook) {
+  console.log('activeBook', activeBook);
+  return {
+    type: BOOK_SELECTED,
+    activeBook
+  }
+}
+
+export function doFetchBooks(term) {
   return {
     type: FETCH_BOOKS,
     term
@@ -13,17 +22,16 @@ export function doFetchBooks(term, atts) {
 }
 
 export function doSuccessFetchBooks(payload) {
-  console.log('inside doSuccessFetchBooks ====>', payload)
   return {
     type: FETCH_BOOKS_SUCCESS,
     payload
   };
 }
 
-export function doCancelFetchBooks(error) {
+export function doCancelFetchBooks(payload) {
   return {
     type: FETCH_BOOKS_FAILURE,
-    error
+    payload
   };
 }
 

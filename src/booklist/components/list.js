@@ -1,42 +1,40 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { Link, withRouter } from 'react-router-dom' 
 import _ from "lodash";
-import {List as Ul , ListItem} from 'material-ui/List';
+import { List as Ul , ListItem } from 'material-ui/List';
 
-import BookDetail from "../../bookdetail/index";
+// import { history } from '../../store';
+import BookDetail from "../../bookdetail";
+
+import {
+  selectedBook 
+}
+from "../actions/doFetchBooks";
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-    console.log("props in list comp===>", this.props);
-    this.state = {
-      activeBook: {}
-    };
-  }
 
-  setActivebook(event, activeBookID) {
-    // event.target.parentElement.classList.add('active');
-    let book = _.find(this.books, { id: activeBookID });
-
-    this.setState({
-      activeBook: book
-    });
-    console.log("active book ====>", this.state.activeBook);
+  setActivebook(activeBookID) {
+    let book = _.find(this.props.books, { id: activeBookID });
+    console.log('')
+    this.props.selectedBook(book)
+    this.props.history.push('/preview'); // to programmatically change routes
   }
 
   render() {
-    console.log("props in list comp 2===>", this.props);
-    this.books = this.props.books;
+    let { books } = this.props;
 
-    if (_.isEmpty(this.books)) {
+    if (_.isEmpty(books)) {
       return <div>Books ..... and lots of books here</div>;
     }
 
     var _this = this;
-    let BooksList = this.books.map((book, index) => {
+    let BooksList = books.map((book, index) => {
       return (
-        <ListItem key={book.id} 
+        <ListItem  
         data-book={book.id} className="list-group-item" 
-        onClick={event => _this.setActivebook(event, book.id)}>
+        onClick={event => _this.setActivebook(book.id)} key={book.id}>
           {book.volumeInfo.title}
         </ListItem>
       );
@@ -47,10 +45,24 @@ class List extends Component {
         <Ul>
           {BooksList}   
         </Ul>
-        <BookDetail book={this.state.activeBook} />
       </div>
     );
   }
 }
 
-export default List;
+const mapStateToProps = state => {
+  let Library = state.BooksReducer.applyFetchBooksReducer
+  return {
+    books: Library.books,
+    isLoading: Library.isLoading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    selectedBook
+  }, dispatch)  
+}
+
+// withRouter will pass history as props to the component
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

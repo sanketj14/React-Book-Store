@@ -1,17 +1,18 @@
 import {
   FETCH_BOOKS,
   FETCH_BOOKS_SUCCESS,
-  FETCH_BOOKS_FAILURE
+  FETCH_BOOKS_FAILURE,
+  BOOK_SELECTED
 } from '../actions/actionTypes'
 
 let initialState = {
   books: [],
   isLoading: false,
+  activeBook: {},
   error: null
 }
 
 function applyFetchBooksReducer (state = initialState, action) {
-  console.log('action.type ====>',action.type);
   switch(action.type){
     case FETCH_BOOKS : 
       return Object.assign({}, state, {
@@ -20,8 +21,12 @@ function applyFetchBooksReducer (state = initialState, action) {
         error: null
       });
 
+    case BOOK_SELECTED : 
+      return Object.assign({}, state, {
+        activeBook: action.activeBook,
+      });
+
     case FETCH_BOOKS_SUCCESS : 
-      console.log('action.payload.data',action.payload.data);
       return Object.assign({}, state, {
         books: action.payload.data.items,
         isLoading: false,
@@ -33,7 +38,7 @@ function applyFetchBooksReducer (state = initialState, action) {
       return Object.assign({}, state, {
         books: [],
         isLoading: false,
-        error: action.payload.error
+        error: action.payload
       });
 
     default : 

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardActions,
@@ -10,18 +12,18 @@ import {
 import RaisedButton from "material-ui/RaisedButton";
 
 class Detail extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   openPreview(previewLink) {
     window.open(previewLink);
   }
 
   render() {
-    let book = this.props.book;
+    let book = this.props.activeBook;
+    console.log('book', book);
     if (_.isEmpty(book)) {
-      return null;
+      return <div>
+        <RaisedButton onClick={window.history.go(-1)}> Back </RaisedButton>
+      </div>;
     }
 
     return (
@@ -55,4 +57,12 @@ class Detail extends Component {
   }
 }
 
-export default Detail;
+const mapStateToProps = state => {
+  let Library = state.BooksReducer.applyFetchBooksReducer  
+  console.log('state.BooksReducer.applyFetchBooksReducer', Library)
+  return {
+    activeBook: Library.activeBook
+  }
+}
+
+export default connect(mapStateToProps, null)(Detail);

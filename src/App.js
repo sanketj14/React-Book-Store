@@ -1,15 +1,18 @@
-import React , { Component } from "react";
-import { Route, Switch } from 'react-router';
-import { connect } from 'react-redux';
 import _ from 'lodash';
+import React , { Component } from "react";
+import { Route, Switch } from 'react-router-dom';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
+
 import {
   doFetchBooks
 } from './booklist/actions/doFetchBooks'
 
-import Header from './header/index';
-import SearchBar from './search-bar/index';
-import BookList from './booklist/index';
-import PreviewComponent from './preview/index';
+import Routes from './routes';
+import Header from './header';
+import SearchBar from './search-bar';
+import BookList from './booklist';
+import PreviewComponent from './preview';
 
 class App extends Component { 
 
@@ -22,7 +25,7 @@ class App extends Component {
   }
   
   componentDidMount () {
-    this.props.fetchBooks('react');
+    this.props.doFetchBooks('react');
   }
 
   componentWillReceiveProps(nextProps, prevProps) {
@@ -41,21 +44,14 @@ class App extends Component {
 
   render () {
     
-    const BookSearch = _.debounce((term) => { this.props.fetchBooks(term) }, 1500)
-
+    const BookSearch = _.debounce((term) => { this.props.doFetchBooks(term) }, 1500)
+    
     return (
       <div className='App'>
         <Header />
         <SearchBar onSearchTermChange={BookSearch} onResetSearch={this.resetSearch}/>    
         <div>
-        {/* (
-          <Switch>
-
-            <Route exact path="/" render={}/>
-
-          </Switch>
-        ); */}
-        <BookList books={this.state.searchResults} />
+          {Routes}
         </div>
       </div>  
     );
@@ -72,11 +68,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchBooks: (term) => {
-      dispatch(doFetchBooks(term))
-    }
-  }
+  return bindActionCreators({
+    doFetchBooks
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -3,10 +3,6 @@ import SearchInput from "./components/SearchInput";
 
 class SearchBar extends Component { 
 
-  constructor (props) {
-    super(props);
-  }
-
   render () {
     return (
       <div>

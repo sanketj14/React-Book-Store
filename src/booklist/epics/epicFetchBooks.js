@@ -11,6 +11,7 @@ import { API_KEY, BOOKS_API } from '../../constants';
 function epicFetchBooks(action$, store) {
   return action$.ofType(FETCH_BOOKS)
   .map(action => {
+    console.log('action', action.term);
     var q = {
       q: action.term,
       key: API_KEY
